@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show book</title>
+</head>
+<body>
+<!--<p th:text="${book.getPers_id}">VALUE</p>-->
+<p th:text="${'Название: ' + book.getTitle()}">VALUE</p>
+<p th:text="${'Автор: '+ book.getAthor()}">VALUE</p>
+<p th:text="${'Год издания: '+ book.getYear_public()}">VALUE</p>
+
+</p>
+
+<span th:if="${book.getPers_id() == 0}">Книга свободна! Кому ее назначить?<br>
+Выберите человека
+   <form th:action="@{/books/assign-book}" method="post">
+<!--        "@{/people/{id}(id=${person.getPerson_id()})}"-->
+    <select name="selectedPersonId">
+        <option th:each="person : ${readers}" th:value="${person.getPerson_id()}" th:text="${person.getFio()}"></option>
+    </select>
+    <input type="hidden" name="bookId" th:value="${book.getBook_id()}" />
+    <button type="submit">Назначить книгу</button>
+</form>
+</span>
+
+
+<span th:if="${book.getPers_id() != 0}">
+    Книга сейчас у:
+    <span th:each="person : ${readers}" th:if="${person.getPerson_id() == book.getPers_id()}" th:text="${person.getFio()}"></span>
+
+    <!-- Форма для освобождения книги только по book_id -->
+<form th:action="@{/books/free-book}" method="post">
+    <input type="hidden" name="bookId" th:value="${book.getBook_id()}" />
+    <button type="submit">Освободить книгу</button>
+</form>
+
+</span>
+
+</p>
+<!--<a th:href="@{/books/{id}/edit(id=${book.getBook_id()})}">Edit</a>-->
+
+<form th:action="@{/books/{id}/edit(id=${book.getBook_id()})}" method="get">
+    <button type="submit">Редактировать!</button>
+</form>
+
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBook_id()})}">
+    <input type="submit" value="Удалить!"/>
+</form>
+</body>
+</html>

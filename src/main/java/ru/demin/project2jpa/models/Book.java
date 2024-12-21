@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -19,8 +20,63 @@ public class Book {
 
     @NotEmpty(message = "Название не может быть пустым!")
     @Size(min = 5, max = 100, message = "Название должно быть от 5 до 100 символов!")
+    @Column(name = "title")
     private String title;
 
-    
+    @NotEmpty(message = "Автор не может быть пустым!")
+    @Size(min = 5, max = 100, message = "Автор должен быть от 5 до 100 символов!")
+    @Column(name = "author")
+    private String author;
 
+    @Column(name="year_public")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date year_public;
+
+    @ManyToOne
+    @JoinColumn(name = "pers_id", referencedColumnName = "person_id")
+    private Person owner;
+
+    public Book() {
+    }
+
+    public int getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
+
+    public @NotEmpty(message = "Название не может быть пустым!") @Size(min = 5, max = 100, message = "Название должно быть от 5 до 100 символов!") String getTitle() {
+        return title;
+    }
+
+    public void setTitle(@NotEmpty(message = "Название не может быть пустым!") @Size(min = 5, max = 100, message = "Название должно быть от 5 до 100 символов!") String title) {
+        this.title = title;
+    }
+
+    public @NotEmpty(message = "Автор не может быть пустым!") @Size(min = 5, max = 100, message = "Автор должен быть от 5 до 100 символов!") String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(@NotEmpty(message = "Автор не может быть пустым!") @Size(min = 5, max = 100, message = "Автор должен быть от 5 до 100 символов!") String author) {
+        this.author = author;
+    }
+
+    public Date getYear_public() {
+        return year_public;
+    }
+
+    public void setYear_public(Date year_public) {
+        this.year_public = year_public;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
 }

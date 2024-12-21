@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update book</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/books/{id}(id=${book.getBook_id()})}" th:object="${book}">
+<!--    <label for="pers_id">Enter pers_id: </label>-->
+<!--    <input type="text" th:field="*{pers_id}" id="pers_id"/>-->
+<!--    <div style="color: red" th:if="${#fields.hasErrors('pers_id')}" th:errors="*{pers_id}">pers_id error!</div>-->
+<!--    <br/>-->
+
+    <label for="title">Введите название: </label>
+    <input type="text" th:field="*{title}" id="title"/>
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title error!</div>
+    <br/>
+
+    <label for="athor">Введите автора: </label>
+    <input type="text" th:field="*{athor}" id="athor"/>
+    <div style="color: red" th:if="${#fields.hasErrors('athor')}" th:errors="*{athor}">athor error!</div>
+    <br/>
+
+    <label for="year_public">Введите год публикации: </label>
+    <input type="text" th:field="*{year_public}" id="year_public"/>
+    <div style="color: red" th:if="${#fields.hasErrors('year_public')}" th:errors="*{year_public}">year_public error!</div>
+    <br/>
+
+    <input type="submit" value="Редактировать!"/>
+</form>
+
+</body>
+</html>
