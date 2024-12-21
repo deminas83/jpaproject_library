@@ -1,7 +1,6 @@
 package ru.demin.project2jpa.controllers;
 
 import jakarta.validation.Valid;
-import jdk.internal.icu.text.NormalizerBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
