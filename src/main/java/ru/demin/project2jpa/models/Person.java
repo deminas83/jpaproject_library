@@ -1,10 +1,12 @@
 package ru.demin.project2jpa.models;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Person {
     @Column(name = "fio")
     private String fio;
 
-    @NotEmpty(message = "Дата рождения не может быть пустой!")
+    //@NotEmpty(message = "Дата рождения не может быть пустой!")
     @Column(name = "year_of_birth")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern="dd.MM.yyyy")
@@ -33,11 +35,11 @@ public class Person {
     public Person() {
     }
 
-    public @NotEmpty(message = "Дата рождения не может быть пустой!") Date getYear_of_birth() {
-        return year_of_birth;
+    public Date getYear_of_birth() {
+       return year_of_birth;
     }
 
-    public void setYear_of_birth(@NotEmpty(message = "Дата рождения не может быть пустой!") Date year_of_birth) {
+    public void setYear_of_birth(Date year_of_birth) {
         this.year_of_birth = year_of_birth;
     }
 

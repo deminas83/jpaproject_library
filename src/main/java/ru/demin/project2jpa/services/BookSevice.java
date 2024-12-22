@@ -1,5 +1,6 @@
 package ru.demin.project2jpa.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.demin.project2jpa.models.Book;
@@ -12,11 +13,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class BookSevice {
 
-    private final PersonRepo personRepo;
+   // private final PersonRepo personRepo;
     private BookRepo bookRepo;
 
-    public BookSevice(PersonRepo personRepo) {
-        this.personRepo = personRepo;
+    @Autowired
+    public BookSevice(BookRepo bookRepo) {
+        this.bookRepo = bookRepo;
     }
 
     public List<Book> getBooks() {

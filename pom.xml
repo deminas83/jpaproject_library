@@ -8,7 +8,6 @@
   <name>Project2JPA Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
-
   <properties>
     <spring.version>5.3.39</spring.version>
     <hibernate.version>5.4.28.Final</hibernate.version>
@@ -74,7 +73,7 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>7.0.5.Final</version>
+      <version>6.1.6.Final</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -91,7 +90,6 @@
       <artifactId>hibernate-core</artifactId>
       <version>5.4.28.Final</version>
     </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
     <dependency>

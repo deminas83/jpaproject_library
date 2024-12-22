@@ -1,5 +1,6 @@
 package ru.demin.project2jpa.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.demin.project2jpa.models.Person;
@@ -12,6 +13,11 @@ import java.util.List;
 public class PeopleService {
 
     private PersonRepo personRepo;
+
+    @Autowired
+    public PeopleService(PersonRepo personRepo) {
+        this.personRepo = personRepo;
+    }
 
     @Transactional
     public void save(Person person){
