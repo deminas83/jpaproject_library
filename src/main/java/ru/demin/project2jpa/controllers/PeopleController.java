@@ -1,5 +1,6 @@
 package ru.demin.project2jpa.controllers;
 
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,8 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model){
-        model.addAttribute("people", peopleService.showAll());
         System.out.println("111111111111111");
+        model.addAttribute("people", peopleService.showAll());
         return "people/index";
     }
 
