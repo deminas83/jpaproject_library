@@ -7,18 +7,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.demin.project2jpa.models.Book;
 import ru.demin.project2jpa.services.BookSevice;
+import ru.demin.project2jpa.services.PeopleService;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/book")
+@RequestMapping("/books")
 public class BookController {
 
-    private BookSevice bookSevice;
+    private final BookSevice bookSevice;
+    private final PeopleService peopleService;
 
     @Autowired
-    public BookController(BookSevice bookSevice) {
+    public BookController(BookSevice bookSevice, PeopleService peopleService) {
         this.bookSevice = bookSevice;
+        this.peopleService = peopleService;
     }
 
     @GetMapping()
@@ -28,15 +31,16 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String showBook(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", bookSevice.getBookById(id));
+    public String showBook(@PathVariable("id") int id, Model bookModel, Model personModel){
+        bookModel.addAttribute("book", bookSevice.getBookById(id));
+        personModel.addAttribute("readers", peopleService.showAll());
         return "books/show";
     }
 
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable("id") int id, Model model){
         bookSevice.deleteById(id);
-        return "redirect:/book";
+        return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
@@ -50,7 +54,7 @@ public class BookController {
         if (bindingResult.hasErrors()) return "books/edit";
         else
         {bookSevice.update(id, book);
-            return "redirect:/book";}
+            return "redirect:/books";}
     }
 
     @GetMapping("/new")
@@ -63,6 +67,6 @@ public class BookController {
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "books/new";
         else {bookSevice.save(book);
-        return "redirect:/book";}
+        return "redirect:/books";}
     }
 }

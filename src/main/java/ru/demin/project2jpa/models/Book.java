@@ -5,8 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Date;
-
 
 @Entity
 @Table(name = "book")
@@ -16,6 +14,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private int book_id;
+
+//    @Column(name = "pers_id")
+//    private int pers_id;
 
     @NotEmpty(message = "Название не может быть пустым!")
     @Size(min = 5, max = 100, message = "Название должно быть от 5 до 100 символов!")
@@ -28,9 +29,7 @@ public class Book {
     private String author;
 
     @Column(name="year_public")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    @Temporal(TemporalType.DATE)
-    private Date year_public;
+    private int year_public;
 
     @ManyToOne
     @JoinColumn(name = "pers_id", referencedColumnName = "person_id")
@@ -63,11 +62,11 @@ public class Book {
         this.author = author;
     }
 
-    public Date getYear_public() {
+    public int getYear_public() {
         return year_public;
     }
 
-    public void setYear_public(Date year_public) {
+    public void setYear_public(int year_public) {
         this.year_public = year_public;
     }
 
@@ -78,4 +77,12 @@ public class Book {
     public void setOwner(Person owner) {
         this.owner = owner;
     }
+
+//    public int getPers_id() {
+//        return pers_id;
+//    }
+//
+//    public void setPers_id(int pers_id) {
+//        this.pers_id = pers_id;
+//    }
 }
