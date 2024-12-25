@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -30,6 +31,9 @@ public class Book {
 
     @Column(name="year_public")
     private int year_public;
+
+    @Column(name="date_booking")
+    private Date date_booking;
 
     @ManyToOne
     @JoinColumn(name = "pers_id", referencedColumnName = "person_id")
@@ -78,11 +82,12 @@ public class Book {
         this.owner = owner;
     }
 
-//    public int getPers_id() {
-//        return pers_id;
-//    }
-//
-//    public void setPers_id(int pers_id) {
-//        this.pers_id = pers_id;
-//    }
+    public Date getDate_booking() {
+        return date_booking;
+    }
+
+    public void setDate_booking(Date date_booking) {
+        this.date_booking = date_booking;
+    }
+
 }

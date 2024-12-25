@@ -12,9 +12,5 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
 
     public List<Book> findBookByOwner(Person owner);
 
-    Book findBookByTitleLike(String title);
-
-    List<Book> findAllByTitleLike(String title);
-
     List<Book> findBooksByTitleStartingWith(String title);
 }

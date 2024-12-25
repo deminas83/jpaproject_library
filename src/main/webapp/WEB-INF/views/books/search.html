@@ -16,9 +16,13 @@
 <div>
     <h2>Список найденных книг:</h2>
     <ul>
-        <li th:each="book : ${searchBook}">
-            <p th:text="${book.getTitle() + ' ' + book.getAuthor()+ ' ' + book.getYear_public() }"></p> <!-- Замените на соответствующее поле из модели книги -->
+        <li th:each="book : ${searchBook}" th:if="${not #lists.isEmpty(searchBook)}">
+            <p th:text="${book.getTitle() + ' ' + book.getAuthor() + ' ' + book.getYear_public() }"></p>
+            </p>
+            <p th:if="${book.getOwner() != null}">Книга сейчас у: <span th:text="${book.getOwner().getFio()}"></span></p>
+            <p th:unless="${book.getOwner() != null}">Книга свободна</p>
         </li>
+        <li th:if="${#lists.isEmpty(searchBook)}">Нет найденных книг</li>
     </ul>
 </div>
 

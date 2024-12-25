@@ -6,4 +6,5 @@ import ru.demin.project2jpa.models.Person;
 
 @Repository
 public interface PersonRepo extends JpaRepository<Person, Integer> {
+
 }

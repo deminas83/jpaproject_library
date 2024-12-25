@@ -9,12 +9,19 @@
 <p th:text="${'ФИО: ' + person.getFio()}">VALUE</p>
 <p th:text="'Год рождения: ' + ${#dates.format(person.getYear_of_birth(), 'dd.MM.yyyy')}">VALUE</p>
 
+<div>
+    Текущая дата и время: <span th:text="${T(java.time.LocalDate).now()}"></span>
+</div>
+
 <p/>
 <p th:if="${books != null}">
     Книги:
+
 <ul>
-    <li th:each="book : ${books}" th:text="${book.getTitle() +' '+ book.getAuthor() +' '+book.getYear_public()}"></li>
+    <li th:each="book : ${books}"
+        th:text="${book.getTitle() + ' ' + book.getAuthor() + ' ' + book.getYear_public() + ' ' + book.getDate_booking()}"></li>
 </ul>
+
 </p>
 
 <form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}" method="get">

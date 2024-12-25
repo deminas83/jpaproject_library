@@ -6,8 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.demin.project2jpa.models.Book;
 import ru.demin.project2jpa.models.Person;
 import ru.demin.project2jpa.repo.BookRepo;
+import ru.demin.project2jpa.repo.PersonRepo;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -17,7 +20,7 @@ public class BookSevice {
     private BookRepo bookRepo;
 
     @Autowired
-    public BookSevice(BookRepo bookRepo) {
+    public BookSevice(BookRepo bookRepo, PersonRepo personRepo) {
         this.bookRepo = bookRepo;
     }
 
@@ -55,6 +58,7 @@ public class BookSevice {
         Book book = bookRepo.findById(book_id).orElse(null);
         assert book != null;
         book.setOwner(person);
+        book.setDate_booking(new Date());
     }
 
     @Transactional
@@ -62,6 +66,7 @@ public class BookSevice {
         Book book = bookRepo.findById(book_id).orElse(null);
         assert book != null;
         book.setOwner(null);
+        book.setDate_booking(null);
     }
 
     public List<Book> findBooksByTitle(String title){
