@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <meta charset="UTF-8">
+    <title>Search Book</title>
+</head>
+<body>
+
+<form th:action="@{/books/search}" method="get">
+    <label for="bookTitle">Введите название книги:</label>
+    <input type="text" id="bookTitle" name="bookTitle">
+    <button type="submit">Искать</button>
+</form>
+
+<!-- Вывод списка книг из модели searchBook -->
+<div>
+    <h2>Список найденных книг:</h2>
+    <ul>
+        <li th:each="book : ${searchBook}">
+            <p th:text="${book.getTitle() + ' ' + book.getAuthor()+ ' ' + book.getYear_public() }"></p> <!-- Замените на соответствующее поле из модели книги -->
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

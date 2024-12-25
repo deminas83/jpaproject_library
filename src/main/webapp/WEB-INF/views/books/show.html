@@ -15,7 +15,6 @@
 <span th:if="${book.getOwner()==null}">Книга свободна! Кому ее назначить?<br>
 Выберите человека
    <form th:action="@{/books/assign-book}" method="post">
-<!--        "@{/people/{id}(id=${person.getPerson_id()})}"-->
     <select name="selectedPersonId">
         <option th:each="person : ${readers}" th:value="${person.getPerson_id()}" th:text="${person.getFio()}"></option>
     </select>
@@ -27,7 +26,9 @@
 
 <span th:if="${book.getOwner()!=null}">
     Книга сейчас у:
-<!--    <span th:each="person : ${readers}" th:if="${person.getPerson_id() == book.getPers_id()}" th:text="${person.getFio()}"></span>-->
+     <span th:each="person : ${readers}" th:if="${person.getPerson_id() == book.getOwner().getPerson_id()}" th:text="${person.getFio()}"></span>
+
+    </p>
 
     <!-- Форма для освобождения книги только по book_id -->
 <form th:action="@{/books/free-book}" method="post">
@@ -44,6 +45,7 @@
     <button type="submit">Редактировать!</button>
 </form>
 
+</p>
 
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBook_id()})}">
     <input type="submit" value="Удалить!"/>

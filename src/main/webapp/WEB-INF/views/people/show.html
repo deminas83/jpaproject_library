@@ -10,7 +10,12 @@
 <p th:text="'Год рождения: ' + ${#dates.format(person.getYear_of_birth(), 'dd.MM.yyyy')}">VALUE</p>
 
 <p/>
-<p/>
+<p th:if="${books != null}">
+    Книги:
+<ul>
+    <li th:each="book : ${books}" th:text="${book.getTitle() +' '+ book.getAuthor() +' '+book.getYear_public()}"></li>
+</ul>
+</p>
 
 <form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}" method="get">
     <button type="submit">Редактировать!</button>
@@ -19,5 +24,7 @@
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPerson_id()})}">
     <input type="submit" value="Удалить!"/>
 </form>
+
+
 </body>
 </html>

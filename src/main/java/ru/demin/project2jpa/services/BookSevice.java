@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.demin.project2jpa.models.Book;
+import ru.demin.project2jpa.models.Person;
 import ru.demin.project2jpa.repo.BookRepo;
-import ru.demin.project2jpa.repo.PersonRepo;
 
 import java.util.List;
 
@@ -49,4 +49,23 @@ public class BookSevice {
         book.setBook_id(id);
         bookRepo.save(book);
     }
+
+    @Transactional
+    public void updateOwner(Person person, int book_id){
+        Book book = bookRepo.findById(book_id).orElse(null);
+        assert book != null;
+        book.setOwner(person);
+    }
+
+    @Transactional
+    public void deleteOwner(int book_id){
+        Book book = bookRepo.findById(book_id).orElse(null);
+        assert book != null;
+        book.setOwner(null);
+    }
+
+    public List<Book> findBooksByTitle(String title){
+        return bookRepo.findBooksByTitleStartingWith(title);
+    }
+
 }

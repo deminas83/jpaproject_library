@@ -3,7 +3,9 @@ package ru.demin.project2jpa.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.demin.project2jpa.models.Book;
 import ru.demin.project2jpa.models.Person;
+import ru.demin.project2jpa.repo.BookRepo;
 import ru.demin.project2jpa.repo.PersonRepo;
 
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.List;
 public class PeopleService {
 
     private PersonRepo personRepo;
+    private BookRepo bookRepo;
 
-    @Autowired
-    public PeopleService(PersonRepo personRepo) {
+@Autowired
+    public PeopleService(PersonRepo personRepo, BookRepo bookRepo) {
         this.personRepo = personRepo;
+        this.bookRepo = bookRepo;
     }
 
     @Transactional
@@ -48,4 +52,7 @@ public class PeopleService {
         return personRepo.findById(id).orElse(null);
     }
 
+    public List<Book> findBookByOwner(Person owner){
+        return bookRepo.findBookByOwner(owner);
+    }
 }

@@ -23,7 +23,7 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model){
-        System.out.println("111111111111111");
+       // System.out.println("111111111111111");
         model.addAttribute("people", peopleService.showAll());
         return "people/index";
     }
@@ -42,8 +42,9 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public String showPerson(@PathVariable("id") int id, Model model){
-        model.addAttribute("person", peopleService.showById(id));
+    public String showPerson(@PathVariable("id") int id, Model modelperson, Model modelbook){
+        modelperson.addAttribute("person", peopleService.showById(id));
+        modelbook.addAttribute("books", peopleService.findBookByOwner(peopleService.showById(id)));
         return "people/show";
     }
 
