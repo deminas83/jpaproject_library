@@ -6,7 +6,17 @@
 </head>
 <body>
 
-<div th:each="book : ${books}">
+<form th:action="@{/books}" method="get"> <!-- Форма для сортировки книг -->
+    <label for="sort">Сортировка по году публикации:</label>
+    <select name="sort" id="sort">
+        <option value="asc">По возрастанию</option>
+        <option value="desc">По убыванию</option>
+    </select>
+    <button type="submit">Сортировать</button>
+</form>
+<br/>
+
+<div th:each="book : ${books}"> <!-- Итерация по книгам -->
     <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
        th:text="${book.getTitle() + ', ' + book.getAuthor() + ', '+ book.getYear_public()}">book</a>
     <p></p>

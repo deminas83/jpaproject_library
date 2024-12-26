@@ -11,9 +11,7 @@ import ru.demin.project2jpa.repo.PersonRepo;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -75,5 +73,16 @@ public class BookSevice {
     public List<Book> findBooksByTitle(String title){
         return bookRepo.findBooksByTitleStartingWith(title);
     }
+
+    public List<Book> getSortedBooks(String sortDirection) {
+        List<Book> books = bookRepo.findAll();
+        if (sortDirection.equals("asc")) {
+            books.sort(Comparator.comparing(Book::getYear_public));
+        } else if (sortDirection.equals("desc")) {
+            books.sort(Comparator.comparing(Book::getYear_public).reversed());
+        }
+        return books;
+    }
+
 
 }

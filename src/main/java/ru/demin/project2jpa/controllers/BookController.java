@@ -21,39 +21,46 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookSevice bookSevice;
+    private final BookSevice bookService;
     private final PeopleService peopleService;
     private final PersonRepo personRepo;
 
     @Autowired
     public BookController(BookSevice bookSevice, PeopleService peopleService, PersonRepo personRepo) {
-        this.bookSevice = bookSevice;
+        this.bookService = bookSevice;
         this.peopleService = peopleService;
         this.personRepo = personRepo;
     }
 
     @GetMapping()
-    public String index(Model model){
-        model.addAttribute("books", bookSevice.getBooks());
-        return "books/index";
+    public String index(@RequestParam(value = "sort", required = false) String sortDirection, Model model){
+        if (sortDirection==null) {
+            model.addAttribute("books", bookService.getBooks());
+            return "books/index";
+        }
+        else {List<Book> sortedBooks = bookService.getSortedBooks(sortDirection);
+            model.addAttribute("books", sortedBooks);
+            return "books/index"; // или другое имя представления, в котором отображается список книг
+            }
+
     }
 
     @GetMapping("/{id}")
     public String showBook(@PathVariable("id") int id, Model bookModel, Model personModel){
-        bookModel.addAttribute("book", bookSevice.getBookById(id));
+        bookModel.addAttribute("book", bookService.getBookById(id));
         personModel.addAttribute("readers", peopleService.showAll());
         return "books/show";
     }
 
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable("id") int id, Model model){
-        bookSevice.deleteById(id);
+        bookService.deleteById(id);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
     public String findBook(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", bookSevice.getBookById(id));
+        model.addAttribute("book", bookService.getBookById(id));
         return "books/edit";
     }
 
@@ -61,7 +68,7 @@ public class BookController {
     public String updateBook(@ModelAttribute("book") @Valid Book book, @PathVariable("id") int id, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "books/edit";
         else
-        {bookSevice.update(id, book);
+        {bookService.update(id, book);
             return "redirect:/books";}
     }
 
@@ -74,7 +81,7 @@ public class BookController {
     @PostMapping
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "books/new";
-        else {bookSevice.save(book);
+        else {bookService.save(book);
         return "redirect:/books";}
     }
 
@@ -82,20 +89,20 @@ public class BookController {
     public String assignBook(@RequestParam("bookId") int bookId, @RequestParam("selectedPersonId") int selectedPersonId) {
         // Далее можете выполнить необходимые действия с полученными параметрами
         Person person = personRepo.findById(selectedPersonId).orElse(null);
-        bookSevice.updateOwner(person, bookId);
+        bookService.updateOwner(person, bookId);
         return "redirect:/books"; // Возвращаем redirection на другую страницу после обработки
     }
 
     @PostMapping("/free-book")
     public String freeBook(@RequestParam("bookId") int bookId) {
-        bookSevice.deleteOwner(bookId);
+        bookService.deleteOwner(bookId);
         return "redirect:/books";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "bookTitle", required = false) String title, Model model){
         if (title != null && !title.isEmpty()) {
-            model.addAttribute("searchBook", bookSevice.findBooksByTitle(title));
+            model.addAttribute("searchBook", bookService.findBooksByTitle(title));
         } else {
             model.addAttribute("searchBook", new ArrayList<Book>());
         }
