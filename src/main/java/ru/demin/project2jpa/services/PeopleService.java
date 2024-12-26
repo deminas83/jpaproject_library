@@ -8,6 +8,11 @@ import ru.demin.project2jpa.models.Person;
 import ru.demin.project2jpa.repo.BookRepo;
 import ru.demin.project2jpa.repo.PersonRepo;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,5 +59,19 @@ public class PeopleService {
 
     public List<Book> findBookByOwner(Person owner){
         return bookRepo.findBookByOwner(owner);
+    }
+
+    public boolean checkExpiredTime(Date date) {
+        long differenceInDays = ChronoUnit.DAYS.between(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now());
+        return differenceInDays > 9;
+    }
+
+    public List<Book> updateMarkExpiredTime(List<Book> books){
+        for (Book book : books) {
+            book.setMarkExpiredTime(checkExpiredTime(book.getDate_booking()));
+            System.out.println(book);
+        }
+        System.out.println(books.size());
+    return books;
     }
 }

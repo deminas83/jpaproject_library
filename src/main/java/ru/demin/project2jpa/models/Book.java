@@ -1,6 +1,8 @@
 package ru.demin.project2jpa.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.demin.project2jpa.services.BookSevice;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -38,6 +40,9 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "pers_id", referencedColumnName = "person_id")
     private Person owner;
+
+    @Transient
+    private boolean markExpiredTime;
 
     public Book() {
     }
@@ -90,4 +95,11 @@ public class Book {
         this.date_booking = date_booking;
     }
 
+    public boolean isMarkExpiredTime() {
+        return markExpiredTime;
+    }
+
+    public void setMarkExpiredTime(boolean markExpiredTime) {
+        this.markExpiredTime = markExpiredTime;
+    }
 }

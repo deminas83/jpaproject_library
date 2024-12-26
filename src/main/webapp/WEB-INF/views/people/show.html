@@ -14,15 +14,18 @@
 </div>
 
 <p/>
-<p th:if="${books != null}">
-    Книги:
 
-<ul>
-    <li th:each="book : ${books}"
-        th:text="${book.getTitle() + ' ' + book.getAuthor() + ' ' + book.getYear_public() + ' ' + book.getDate_booking()}"></li>
-</ul>
-
-</p>
+<div th:if="${books.size() > 0}">
+    <p>Книги:</p>
+    <ul>
+        <li th:each="book : ${books}"
+            th:text="${book.getTitle() + ' ' + book.getAuthor() + ' ' + book.getYear_public()}"
+            th:style="${book.isMarkExpiredTime() ? 'color: red' : 'color: green;'}"></li>
+    </ul>
+</div>
+<div th:if="${books.size() == 0}">
+    <p>У вас нет книг</p>
+</div>
 
 <form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}" method="get">
     <button type="submit">Редактировать!</button>

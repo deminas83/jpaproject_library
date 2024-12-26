@@ -43,8 +43,10 @@ public class PeopleController {
 
     @GetMapping("/{id}")
     public String showPerson(@PathVariable("id") int id, Model modelperson, Model modelbook){
+        //находим человека по id
         modelperson.addAttribute("person", peopleService.showById(id));
-        modelbook.addAttribute("books", peopleService.findBookByOwner(peopleService.showById(id)));
+        //возаращаем список его книг и сразу апдейтим метку о просрочке книги
+        modelbook.addAttribute("books", peopleService.updateMarkExpiredTime(peopleService.findBookByOwner(peopleService.showById(id))));
         return "people/show";
     }
 
