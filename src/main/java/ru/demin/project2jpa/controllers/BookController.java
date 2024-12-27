@@ -1,6 +1,8 @@
 package ru.demin.project2jpa.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,17 +35,24 @@ public class BookController {
     }
 
     @GetMapping()
-    public String index(@RequestParam(value = "sort", required = false) String sortDirection, Model model){
-        if (sortDirection==null) {
-            model.addAttribute("books", bookService.getBooks());
-            return "books/index";
-        }
-        else {List<Book> sortedBooks = bookService.getSortedBooks(sortDirection);
-            model.addAttribute("books", sortedBooks);
-            return "books/index"; // или другое имя представления, в котором отображается список книг
-            }
+    public String index(@RequestParam(value = "sort", required = false) String sortDirection,
+                        @RequestParam(defaultValue = "0", required = false) int page,
+                        @RequestParam(defaultValue = "10", required = false) int pageSize, Model model) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        Page<Book> pagedBooks;
 
+        if (sortDirection == null) {
+            pagedBooks = bookService.findAll(pageRequest);
+        } else {
+            pagedBooks = bookService.getSortedBooks(sortDirection, pageRequest);
+        }
+
+        model.addAttribute("books", pagedBooks.getContent());
+        model.addAttribute("pagedBooks", pagedBooks);
+
+        return "books/index";
     }
+
 
     @GetMapping("/{id}")
     public String showBook(@PathVariable("id") int id, Model bookModel, Model personModel){

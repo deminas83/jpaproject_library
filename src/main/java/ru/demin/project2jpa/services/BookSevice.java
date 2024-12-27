@@ -1,6 +1,10 @@
 package ru.demin.project2jpa.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.demin.project2jpa.models.Book;
@@ -8,9 +12,6 @@ import ru.demin.project2jpa.models.Person;
 import ru.demin.project2jpa.repo.BookRepo;
 import ru.demin.project2jpa.repo.PersonRepo;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -18,7 +19,7 @@ import java.util.*;
 public class BookSevice {
 
    // private final PersonRepo personRepo;
-    private BookRepo bookRepo;
+    private final BookRepo bookRepo;
 
     @Autowired
     public BookSevice(BookRepo bookRepo, PersonRepo personRepo) {
@@ -74,15 +75,17 @@ public class BookSevice {
         return bookRepo.findBooksByTitleStartingWith(title);
     }
 
-    public List<Book> getSortedBooks(String sortDirection) {
-        List<Book> books = bookRepo.findAll();
-        if (sortDirection.equals("asc")) {
-            books.sort(Comparator.comparing(Book::getYear_public));
-        } else if (sortDirection.equals("desc")) {
-            books.sort(Comparator.comparing(Book::getYear_public).reversed());
+    public Page<Book> getSortedBooks(String sortDirection, PageRequest pageRequest) {
+        Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
+
+        if ("desc".equals(sortDirection)) {
+            return bookRepo.findAllByOrderByYear_publicDesc(pageable);
+        } else {
+            return bookRepo.findAllByOrderByYear_publicAsc(pageable);
         }
-        return books;
     }
 
-
+    public Page<Book> findAll(PageRequest pageRequest) {
+        return bookRepo.findAll(pageRequest);
+    }
 }
