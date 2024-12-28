@@ -60,7 +60,7 @@ public class BookSevice {
         Book book = bookRepo.findById(book_id).orElse(null);
         assert book != null;
         book.setOwner(person);
-        book.setDate_booking(new Date());
+        book.setDateBooking(new Date());
     }
 
     @Transactional
@@ -68,7 +68,7 @@ public class BookSevice {
         Book book = bookRepo.findById(book_id).orElse(null);
         assert book != null;
         book.setOwner(null);
-        book.setDate_booking(null);
+        book.setDateBooking(null);
     }
 
     public List<Book> findBooksByTitle(String title){
@@ -79,9 +79,9 @@ public class BookSevice {
         Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
 
         if ("desc".equals(sortDirection)) {
-            return bookRepo.findAllByOrderByYear_publicDesc(pageable);
+            return bookRepo.findAllByOrderByYearPublicDesc(pageable);
         } else {
-            return bookRepo.findAllByOrderByYear_publicAsc(pageable);
+            return bookRepo.findAllByOrderByYearPublicAsc(pageable);
         }
     }
 

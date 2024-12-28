@@ -22,9 +22,9 @@
     <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">author error!</div>
     <br/>
 
-    <label for="year_public">Введите год публикации: </label>
-    <input type="text" th:field="*{year_public}" id="year_public"/>
-    <div style="color: red" th:if="${#fields.hasErrors('year_public')}" th:errors="*{year_public}">year_public error!</div>
+    <label for="yearPublic">Введите год публикации: </label>
+    <input type="text" th:field="*{yearPublic}" id="yearPublic"/>
+    <div style="color: red" th:if="${#fields.hasErrors('yearPublic')}" th:errors="*{yearPublic}">yearPublic error!</div>
     <br/>
 
     <input type="submit" value="Создать!"/>

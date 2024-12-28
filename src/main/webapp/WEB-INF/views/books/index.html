@@ -24,10 +24,11 @@
 </form>
 <br/>
 
+
 <!-- Пагинация -->
 <div th:if="${pagedBooks.totalPages > 1}">
     <div>
-        <span th:if="${pagedBooks.number > 1}">
+        <span th:if="${pagedBooks.number > 0}">
             <a th:href="@{'?page=' + (pagedBooks.number - 1) + '&size=' + pagedBooks.size}">Предыдущая</a>
         </span>
 
@@ -36,17 +37,20 @@
             <a th:unless="${pagedBooks.number == i}" th:href="@{'?page=' + i + '&size=' + pagedBooks.size}" th:text="${i + 1}"></a>
         </span>
 
-        <span th:if="${pagedBooks.number < pagedBooks.totalPages - 1}">
-    <a th:href="@{('/books?page=' + (${pagedBooks.number + 1}) + '&size=' + pagedBooks.size)}">Следующая</a>
-</span>
-
+        <span th:if="${pagedBooks.number + 1 < pagedBooks.totalPages}">
+            <a th:href="@{'?page=' + (pagedBooks.number + 1) + '&size=' + pagedBooks.size}">Следующая</a>
+        </span>
     </div>
 </div>
 
 
+
+
+
+
 <div th:each="book : ${books}"> <!-- Итерация по книгам -->
     <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
-       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', '+ book.getYear_public()}">book</a>
+       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', '+ book.getYearPublic()}">book</a>
     <p></p>
 </div>
 

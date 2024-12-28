@@ -31,11 +31,11 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name="year_public")
-    private int year_public;
+    @Column(name="yearpublic")
+    private int yearPublic;
 
-    @Column(name="date_booking")
-    private Date date_booking;
+    @Column(name="datebooking")
+    private Date dateBooking;
 
     @ManyToOne
     @JoinColumn(name = "pers_id", referencedColumnName = "person_id")
@@ -71,14 +71,6 @@ public class Book {
         this.author = author;
     }
 
-    public int getYear_public() {
-        return year_public;
-    }
-
-    public void setYear_public(int year_public) {
-        this.year_public = year_public;
-    }
-
     public Person getOwner() {
         return owner;
     }
@@ -87,12 +79,20 @@ public class Book {
         this.owner = owner;
     }
 
-    public Date getDate_booking() {
-        return date_booking;
+    public int getYearPublic() {
+        return yearPublic;
     }
 
-    public void setDate_booking(Date date_booking) {
-        this.date_booking = date_booking;
+    public void setYearPublic(int yearPublic) {
+        this.yearPublic = yearPublic;
+    }
+
+    public Date getDateBooking() {
+        return dateBooking;
+    }
+
+    public void setDateBooking(Date dateBooking) {
+        this.dateBooking = dateBooking;
     }
 
     public boolean isMarkExpiredTime() {

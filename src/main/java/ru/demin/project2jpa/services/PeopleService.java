@@ -68,7 +68,7 @@ public class PeopleService {
 
     public List<Book> updateMarkExpiredTime(List<Book> books){
         for (Book book : books) {
-            book.setMarkExpiredTime(checkExpiredTime(book.getDate_booking()));
+            book.setMarkExpiredTime(checkExpiredTime(book.getDateBooking()));
         }
     return books;
     }
