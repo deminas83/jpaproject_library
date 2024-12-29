@@ -92,11 +92,10 @@ public class BookSevice {
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), books.size());
     }
 
-
     public List<Integer> getCountPage(Page<Book> page) {
         int totalPages = page.getTotalPages();
         List<Integer> pageNumbers = Collections.emptyList();
-       
+
         if (totalPages > 0) {
             pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()

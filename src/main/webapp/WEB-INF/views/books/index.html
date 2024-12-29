@@ -44,8 +44,7 @@
         <span th:each="pageNumber : ${pageNumbers}"
               style="display: inline-block; margin-right: 5px;">
                <a th:href="@{/books(sort=${sort}, pageSize=${bookPage.size}, page=${pageNumber})}"
-               th:text="${pageNumber}"
-               th:class="${pageNumber==bookPage.number + 1} ? 'active' : ''"></a>
+               th:text="${pageNumber}"></a>
         </span>
     </div>
 
