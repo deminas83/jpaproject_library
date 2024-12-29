@@ -16,7 +16,4 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksByTitleStartingWith(String title);
 
-    Page<Book> findAllByOrderByYearPublicAsc(Pageable pageable);
-
-    Page<Book> findAllByOrderByYearPublicDesc(Pageable pageable);
 }

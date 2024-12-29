@@ -47,8 +47,6 @@ public class BookController {
             bookList= bookService.getBooks();
         }
 
-        System.out.println("bookList=" + bookList);
-        System.out.println("bookPage=" + bookPage);
         model.addAttribute("bookPage", bookPage);
         model.addAttribute("bookList", bookList);
         model.addAttribute("pageNumbers", bookService.getCountPage(bookPage));

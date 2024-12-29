@@ -89,8 +89,6 @@ public class BookSevice {
                 list.sort(yearComparator.reversed());
             }
         }
-
-        System.out.println("list=" + list);
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), books.size());
     }
 
@@ -98,7 +96,7 @@ public class BookSevice {
     public List<Integer> getCountPage(Page<Book> page) {
         int totalPages = page.getTotalPages();
         List<Integer> pageNumbers = Collections.emptyList();
-        System.out.println("totalPages =" + totalPages);
+       
         if (totalPages > 0) {
             pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
