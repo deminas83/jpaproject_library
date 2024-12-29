@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface BookRepo extends JpaRepository<Book, Integer> {
 
-    public List<Book> findBookByOwner(Person owner);
+    List<Book> findBookByOwner(Person owner);
 
     List<Book> findBooksByTitleStartingWith(String title);
 

@@ -14,10 +14,9 @@ import ru.demin.project2jpa.services.BookSevice;
 import ru.demin.project2jpa.services.PeopleService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/books")
@@ -36,23 +35,26 @@ public class BookController {
 
     @GetMapping()
     public String index(@RequestParam(value = "sort", required = false) String sortDirection,
-                        @RequestParam(defaultValue = "0", required = false) int page,
-                        @RequestParam(defaultValue = "10", required = false) int pageSize, Model model) {
-        PageRequest pageRequest = PageRequest.of(page, pageSize);
-        Page<Book> pagedBooks;
+                        @RequestParam(value ="page", required = false) Optional<Integer> currentPage,
+                        @RequestParam(value = "pageSize", required = false) Optional<Integer> pageSize, Model model) {
 
-        if (sortDirection == null) {
-            pagedBooks = bookService.findAll(pageRequest);
-        } else {
-            pagedBooks = bookService.getSortedBooks(sortDirection, pageRequest);
+        List<Book> bookList = Collections.emptyList();
+        Page<Book> bookPage = Page.empty();
+
+        if (currentPage.isPresent() || pageSize.isPresent()) {
+            bookPage = bookService.findPaginated(currentPage.orElse(1), pageSize.orElse(10), bookService.getBooks(), sortDirection);}
+        else {
+            bookList= bookService.getBooks();
         }
 
-        model.addAttribute("books", pagedBooks.getContent());
-        model.addAttribute("pagedBooks", pagedBooks);
-
+        System.out.println("bookList=" + bookList);
+        System.out.println("bookPage=" + bookPage);
+        model.addAttribute("bookPage", bookPage);
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("pageNumbers", bookService.getCountPage(bookPage));
+        model.addAttribute("sort", sortDirection);
         return "books/index";
     }
-
 
     @GetMapping("/{id}")
     public String showBook(@PathVariable("id") int id, Model bookModel, Model personModel){
