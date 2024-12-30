@@ -9,8 +9,8 @@
 <form th:action="@{/books}" method="get"> <!-- Форма для сортировки книг -->
     <label for="sort">Сортировка по году публикации:</label>
     <select name="sort" id="sort">
-        <option value="asc">По возрастанию</option>
-        <option value="desc">По убыванию</option>
+        <option value="asc" th:selected="${session['sort'] == null or session['sort'] == 'asc'}">По возрастанию</option>
+        <option value="desc" th:selected="${session['sort'] == 'desc'}">По убыванию</option>
     </select>
 
     <br/>
@@ -20,13 +20,16 @@
         <option th:each="n : ${#numbers.sequence(1, 10)}"
                 th:value="${n}"
                 th:text="${n}"
-                th:selected="${n == 10}">
+                th:selected="${session['pageSize'].isPresent() and session['pageSize'].get() == n}">
+
         </option>
+        <option th:unless="${session['pageSize'].isPresent()}" value="10" selected>10</option>
     </select>
 
-
     <!-- Добавляем поле для указания номера страницы -->
-    <input type="text" name="page" placeholder="Номер страницы" />
+    <label>
+        <input type="text" name="page" placeholder="Номер страницы" />
+    </label>
 
     <button type="submit">Применить</button>
 </form>
@@ -34,18 +37,18 @@
 <br/>
 
 <!-- Пагинация -->
-    <div th:each="book : ${bookPage}">
-        <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
-           th:text="${book.getTitle() + ', ' + book.getAuthor() + ', '+ book.getYearPublic()}">book</a>
-        <p></p>
-    </div>
+<div th:each="book : ${bookPage}">
+    <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
+       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', '+ book.getYearPublic()}">book</a>
+    <p></p>
+</div>
 
     <div th:if="${bookPage.totalPages > 1}" class="pagination">
-        <span th:each="pageNumber : ${pageNumbers}"
-              style="display: inline-block; margin-right: 5px;">
-               <a th:href="@{/books(sort=${sort}, pageSize=${bookPage.size}, page=${pageNumber})}"
-               th:text="${pageNumber}"></a>
-        </span>
+            <span th:each="pageNumber : ${pageNumbers}"
+                  style="display: inline-block; margin-right: 5px;">
+                   <a th:href="@{/books(sort=${session['sort'] == null or session['sort'] == 'asc'}, pageSize=${bookPage.size}, page=${pageNumber})}"
+                      th:text="${pageNumber}"></a>
+            </span>
     </div>
 
     <div th:each="book : ${bookList}"> <!-- Итерация по книгам -->

@@ -13,6 +13,7 @@ import ru.demin.project2jpa.repo.PersonRepo;
 import ru.demin.project2jpa.services.BookSevice;
 import ru.demin.project2jpa.services.PeopleService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class BookController {
     @GetMapping()
     public String index(@RequestParam(value = "sort", required = false) String sortDirection,
                         @RequestParam(value ="page", required = false) Optional<Integer> currentPage,
-                        @RequestParam(value = "pageSize", required = false) Optional<Integer> pageSize, Model model) {
+                        @RequestParam(value = "pageSize", required = false) Optional<Integer> pageSize, Model model, HttpSession session) {
 
         List<Book> bookList = Collections.emptyList();
         Page<Book> bookPage = Page.empty();
@@ -50,7 +51,10 @@ public class BookController {
         model.addAttribute("bookPage", bookPage);
         model.addAttribute("bookList", bookList);
         model.addAttribute("pageNumbers", bookService.getCountPage(bookPage));
-        model.addAttribute("sort", sortDirection);
+        session.setAttribute("sort", sortDirection);
+        session.setAttribute("pageSize", pageSize);
+
+//        model.addAttribute("sort", sortDirection);
         return "books/index";
     }
 

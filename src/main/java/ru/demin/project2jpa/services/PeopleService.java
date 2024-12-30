@@ -19,8 +19,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PeopleService {
 
-    private PersonRepo personRepo;
-    private BookRepo bookRepo;
+    private final PersonRepo personRepo;
+    private final BookRepo bookRepo;
 
 @Autowired
     public PeopleService(PersonRepo personRepo, BookRepo bookRepo) {

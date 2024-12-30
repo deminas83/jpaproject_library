@@ -56,18 +56,22 @@ public class BookSevice {
 
     @Transactional
     public void updateOwner(Person person, int book_id){
-        Book book = bookRepo.findById(book_id).orElse(null);
-        assert book != null;
-        book.setOwner(person);
-        book.setDateBooking(new Date());
+        bookRepo.findById(book_id).ifPresent(
+            book -> {
+                book.setOwner(person);
+                book.setDateBooking(new Date());
+            }
+        );
     }
 
     @Transactional
     public void deleteOwner(int book_id){
-        Book book = bookRepo.findById(book_id).orElse(null);
-        assert book != null;
-        book.setOwner(null);
-        book.setDateBooking(null);
+        bookRepo.findById(book_id).ifPresent(
+                book -> {
+                    book.setOwner(null);
+                    book.setDateBooking(null);
+                }
+        );
     }
 
     public List<Book> findBooksByTitle(String title){
